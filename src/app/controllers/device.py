@@ -23,6 +23,7 @@ class DeviceListController(Resource):
 
     @api.doc(parser=parser_device, responses={200: 'Success', 404: 'Not Found'})
     def get(self):
+        
         devices = []
         error_occurred = False
         search_by_device_type = request.args.get("device_type_id") is not None

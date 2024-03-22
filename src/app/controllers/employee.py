@@ -12,23 +12,32 @@ class EmployeeListController(Resource):
     employees_schema = EmployeeSchema(many=True)
     employee_schema = EmployeeSchema()
 
-    @api.doc(responses={200: 'Success', 404: 'Not Found'})
+    parser_device = reqparse.RequestParser()
+    parser_device.add_argument('page', type=int, help='La página solicitada')
+    parser_device.add_argument('size', type=int, help='Cantidad de elementos por página')
+
+    @api.doc(parser=parser_device, responses={200: 'Success', 404: 'Not Found'})
     def get(self):
+        page = 1 if not request.args.get('page') else int(request.args.get('page'))
+        size = 20 if not request.args.get('size') else int(request.args.get('size'))
+        
         employees = []
         error_occurred = False
-        employees, error_occurred = self.employee_service.fetch_all()
+        employees, error_occurred = self.employee_service.fetch_all(page, size)
 
         if error_occurred:
             return {'data': [], 'status': 'Ha ocurrido un error, por favor intente más tarde'}, 500
-        there_are_devices =  len(employees) > 0
-
+        there_are_devices =  len(employees.items) > 0
         status_code_msg_status = {
-            True: (200, "OK"),
-            False: (404, "No hay empleados disponibles")
+            True: (200, "OK", employees.prev_num, employees.next_num, employees.total),
+            False: (404, "No hay empleados disponibles", 0, 0, 0)
         } 
-        status_code, msg_status = status_code_msg_status[there_are_devices]
+        status_code, msg_status, prev, next, total = status_code_msg_status[there_are_devices]
         response = {
-            'empleados': self.employees_schema.dump(employees),
+            'empleados': self.employees_schema.dump(employees.items),
+            'prev': prev,
+            'next': next,
+            'count': total,   
             'statuts': msg_status,
         }, status_code
         return response
