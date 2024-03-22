@@ -15,9 +15,10 @@ class EmployeService:
         return cls._instance
 
     # se retorna data -> objeto, error -> booleano
-    def fetch_all(self):
+    def fetch_all(self, page=1, size=20):
         try:
-            empleados = db.session.query(Employee).all()
+            empleados = db.session.query(Employee).paginate(int(page), size)
+            
             return (empleados, False)
         except Exception as e:
             self._logger.error(f"Error al obtener todos los empleados: {e}", exc_info=True)
