@@ -55,14 +55,14 @@ class EmployeeController(Resource):
     employee_schema = EmployeeSchema()
 
     def get(self, id):
-        employee, error = self.employee_service.retrieve(id)
+        employee, error = self.employee_service.fetch_by_id(id)
         if error:
             return {
                 'empleado': None , 
                 'status': 'Lo sentimos, ocurrio un error intente más tarde'
             }, 500
         status_code_msg_status = {
-            True: (200, self.device_schema.dump(employee), 'OK'),
+            True: (200, self.employee_schema.dump(employee), 'OK'),
             False: (404, None, 'No se encontro un empleado con el id proporcionado')
         }
         status_code, employee_resp, msg_status = status_code_msg_status[employee is not None]
@@ -79,7 +79,7 @@ class EmployeeController(Resource):
         data = request.get_json(force=True)
         employee, success = self.employee_service.update(id, data)
         device_msg_status_status_code = {
-            True: (self.device_schema.dump(employee), 'Actualizado con exito', 200),
+            True: (self.employee_schema.dump(employee), 'Actualizado con exito', 200),
             False: (None, 'Error al actualizar el empleado', 500)
         }
         
@@ -101,7 +101,7 @@ class EmployeeController(Resource):
         
         success = self.device_service.delete(id)
         employee_msg_status_status_code = {
-            True: (self.device_schema.dump(employee_founded), 'Eliminado con exito', 200),
+            True: (self.employee_schema.dump(employee_founded), 'Eliminado con exito', 200),
             False: (None, 'Error al eliminar el dispositivo', 500)
         }
         employee, msg_status, status_code = employee_msg_status_status_code[success]
