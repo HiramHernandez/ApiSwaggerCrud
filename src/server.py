@@ -41,6 +41,3 @@ db.init_app(app)
 ma.init_app(app)
 app.register_blueprint(api_blueprint)
 
-'''
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxMTA2NTg3MCwianRpIjoiNjU3YTAzYzQtZTdiMy00MDJiLWE3ODgtMDZlM2JkNDBjZGY4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzExMDY1ODcwLCJjc3JmIjoiYzc2M2JmYWEtYTQ4ZC00N2M1LWIwMTEtZWJhZjExZDJiNTg4IiwiZXhwIjoxNzExMDY2NzcwfQ.NolyusB-9r-6LuuoDATHeLKUeHBxzjrrlbmebBjrv7Q
-'''

@@ -87,3 +87,18 @@ class EmployeService:
         except Exception as e:
             self._logger.error(f"Error al eliminar el empleado con ID {id}: {e}", exc_info=True)
             return False
+
+    # retonor tupla (Object, bool) empleado error -> bool
+    def login(self, usrname, pwd):
+        try:            
+            employee = db.session.query(Employee)\
+                .filter(Employee.usuario == usrname, Employee.contrasenia == pwd)\
+                .first()
+            values = {
+                True: (employee, False),
+                False: (None, False)
+            }
+            return values[employee is not None]
+        except Exception as e:
+            self._logger.error(f"Error al consultar el empleado por usuario y password: {e}", exc_info=True)
+            return (None, True)

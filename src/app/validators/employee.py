@@ -21,3 +21,8 @@ employee_post_model = {
     'activo': fields.Boolean(description='Estado de activo del empleado'),
     'usuario_modifico': fields.Integer(description='Usuario que modificó al empleado'),
 }
+
+employee_login_model = {
+    'usuario': fields.String(description='Usuario del empleado'),
+    'contrasenia': fields.String(description='Contraseña del empleado'),
+}

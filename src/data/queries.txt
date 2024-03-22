@@ -1,0 +1,6 @@
+SELECT CONCAT(
+    'INSERT INTO cat_empleados(nombre, apellido_paterno, apellido_materno, calle, numero, colonia, ciudad, estado, codigo_postal, correo, telefono, rfc, curp, imss, tipo_sangre, usuario, contrasenia, activo) VALUES',
+    '(''' + nombre + ''', ''' + apellido_paterno + ''', ''' + apellido_materno + ''', ''' + calle + ''', ''' + numero + ''', ''' + colonia + ''', ''' + ciudad + ''', ''' + estado + ''', ' + CAST(codigo_postal AS VARCHAR(25)) + ', ''' + correo + ''', ' + CAST(telefono AS VARCHAR(25)) + ', ''' + rfc + ''', ''' + CAST(curp AS VARCHAR(8)) + ''', ' + imss + ', ''' + tipo_sangre + ''', ''' + usuario + ''', ''' + contrasenia + ''', ' + CAST(activo AS VARCHAR(25)) + ');'
+), id_empleado
+FROM cat_empleados
+WHERE estado = 'SINALOA' AND id_cedis = 1 AND nombre is not null and usuario is not null and contrasenia is not null;
