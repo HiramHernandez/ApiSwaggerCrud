@@ -13,7 +13,8 @@ from .controllers.device import api as ns1
 from .controllers.employee import (
     api as ns2,
     EmployeeController,
-    EmployeeListController
+    EmployeeListController,
+    LoginController
 )
 
 api_blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -41,3 +42,5 @@ api.add_resource(MaintenanceController, '/maintenance/device/<int:device_id>')
 api.add_namespace(ns2)
 api.add_resource(EmployeeListController, '/employees')
 api.add_resource(EmployeeController, '/employee/<int:id>')
+api.add_resource(LoginController, '/login')
+

@@ -1,11 +1,13 @@
 from flask_restx import Resource, reqparse, Namespace, fields
 from flask import request
-from ..services.employee import EmployeService   
+from ..services.employee import EmployeService
+from ..helpers.token_helper import create_token
 from ..schemas.employee import EmployeeSchema
-from ..validators.employee import employee_post_model
+from ..validators.employee import employee_post_model, employee_login_model
 api = Namespace('Empleados', description='Endpoints para mostrar información sobre dispositivos y registros')
 
 post_model = api.model('Employee', employee_post_model)
+login_model = api.model('Login', employee_login_model)
 
 class EmployeeListController(Resource):
     employee_service = EmployeService()
@@ -88,8 +90,7 @@ class EmployeeController(Resource):
             'empleado': employee_resp,
             'status': msg_status
         }, status_code
-        return response
-       
+        return response       
 
     def delete(self, id):
         employee_founded = self.employee_service.retrieve(id)
@@ -109,3 +110,26 @@ class EmployeeController(Resource):
             'dispositivo': employee, 
             'status': msg_status }, status_code
         return response
+
+
+class LoginController(Resource):
+    employee_service = EmployeService()
+
+    @api.expect(login_model, validate=True)
+    def post(self):
+        data = request.get_json(force=True)
+        employee, error = self.employee_service.login(data['usuario'], data['contrasenia'])
+        if error:
+            return {
+                'status': 'Ocurrio un error intente más tarde'
+            }, 500
+        if employee is None:
+            return {
+                'token': 'No fue posible',
+                'status': 'Intente de nuevo error en usuario o contraseña'
+            }, 200
+
+        return {
+            'token': create_token(employee),
+            'status': 'Ok'
+        }, 200
