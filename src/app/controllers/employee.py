@@ -142,3 +142,32 @@ class LoginController(Resource):
             'token': create_token(employee),
             'status': 'Ok'
         }, 200
+
+
+class LoginTestController(Resource):
+
+    @api.expect(login_model, validate=True)
+    def post(self):
+        data =  request.get_json(force=True)
+        if data['usuario'] != 'admin' or  data['contrasenia'] != 'admin':
+            return {
+                'empleado': None, 
+                'status': 'Lo sentimos no se encontró el empleado'
+            }, 404
+        permisions = [
+            {'action': 'read'},
+            {'action': 'create'},
+            {'action': 'update'},
+            {'action': 'delete'}
+        ]
+        from flask_jwt_extended import create_access_token
+        token = create_access_token(identity=17)
+        print(token)
+        from jwt import decode
+        txt = decode(token, 'super-secret')
+        print(txt)
+        return {
+            'token': token,
+            'status': 'Ok'
+        }, 200
+    
