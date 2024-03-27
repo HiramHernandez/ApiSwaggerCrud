@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, VARCHAR, DATE, BOOLEAN
 from ..config.extensions import db
 
 
-class CatArea(db.Model):
+class Area(db.Model):
     __tablename__ = 'cat_areas'
 
     id_area = Column(Integer, primary_key=True, autoincrement=True)

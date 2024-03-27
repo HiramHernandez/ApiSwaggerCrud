@@ -17,6 +17,21 @@ from .controllers.employee import (
     LoginController,
     LoginTestController
 )
+from .controllers.bank import (
+    api as ns3,
+    BankListController,
+    BankController
+)
+from .controllers.area import (
+    api as ns4,
+    AreaController,
+    AreaListController,
+)
+from .controllers.provider import (
+    api as ns5,
+    ProviderListController,
+    ProviderController
+)
 
 api_blueprint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(
@@ -45,3 +60,15 @@ api.add_resource(EmployeeListController, '/employees')
 api.add_resource(EmployeeController, '/employee/<int:id>')
 api.add_resource(LoginController, '/login')
 api.add_resource(LoginTestController, '/login-test')
+
+api.add_namespace(ns3)
+api.add_resource(BankListController, '/banks')
+api.add_resource(BankController, '/bank/<int:id>')
+
+api.add_namespace(ns4)
+api.add_resource(AreaListController, '/areas')
+api.add_resource(AreaController, '/area/<int:id>')
+
+api.add_namespace(ns5)
+api.add_resource(ProviderListController, '/providers')
+api.add_resource(ProviderController, '/provider/<int:id>')

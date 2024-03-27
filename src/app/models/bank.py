@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, VARCHAR, DATE, BOOLEAN
 from ..config.extensions import db
 
 
-class CatBanco(db.Model):
+class Bank(db.Model):
     __tablename__ = 'cat_bancos'
 
     id_banco = Column(Integer, primary_key=True, autoincrement=True)
