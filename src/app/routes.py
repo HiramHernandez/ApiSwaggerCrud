@@ -14,7 +14,8 @@ from .controllers.employee import (
     api as ns2,
     EmployeeController,
     EmployeeListController,
-    LoginController
+    LoginController,
+    LoginTestController
 )
 
 api_blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -43,4 +44,4 @@ api.add_namespace(ns2)
 api.add_resource(EmployeeListController, '/employees')
 api.add_resource(EmployeeController, '/employee/<int:id>')
 api.add_resource(LoginController, '/login')
-
+api.add_resource(LoginTestController, '/login-test')
